@@ -46,22 +46,16 @@ This directory contains a **batch processing version** of MAPPED that processes 
 
 1. Clone the MAPPED repository:
 ```bash
-git clone https://github.com/your-org/MAPPED.git
-cd MAPPED
-```
-
-2. Copy to MAPPED-batch directory (or clone directly):
-```bash
-cp -r MAPPED MAPPED-batch
+git clone https://github.com/Gaoyuan-Li/MAPPED-batch.git
 cd MAPPED-batch
 ```
 
-3. Ensure the wrapper script is executable:
+2. Ensure the wrapper script is executable:
 ```bash
 chmod +x run_MAPPED_batch.sh
 ```
 
-4. Verify Nextflow and Docker are installed:
+3. Verify Nextflow and Docker are installed:
 ```bash
 nextflow -version
 docker --version
