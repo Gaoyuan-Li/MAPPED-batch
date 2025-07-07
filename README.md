@@ -13,7 +13,7 @@ MAPPED consists of four integrated modules that work together to process public 
 
 The pipeline is designed to handle large-scale datasets with built-in error handling, resume capabilities, and resource optimization.
 
-## Batch Processing Version
+## Batch Processing Version (MAPPED-batch)
 
 This directory contains a **batch processing version** of MAPPED that processes RNA-seq samples in batches of 500 to manage disk space efficiently. This is particularly useful for organisms with thousands of samples where processing all at once would require excessive disk space.
 
