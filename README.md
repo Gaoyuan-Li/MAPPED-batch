@@ -15,19 +15,6 @@ MAPPED-batch consists of five integrated modules that work together to process p
 
 The pipeline is designed to handle large-scale datasets with built-in batch processing, error handling, resume capabilities, and resource optimization.
 
-## Features
-
-- **Batch processing**: Automatically divides large datasets into manageable batches
-- **Automated end-to-end workflow**: From organism name to expression matrices in a single command
-- **Flexible reference genome selection**: Use default reference strains or specify custom genome accessions
-- **Robust error handling**: Automatic retries and graceful failure management
-- **Resume capability**: Continue from any interruption point without re-processing
-- **Resource optimization**: Configurable CPU allocation and efficient storage management
-- **Clean mode**: Automatic cleanup of intermediate files after each batch to save disk space
-- **Docker integration**: No manual dependency installation required
-- **Comprehensive quality control**: FastQC and MultiQC reports included
-- **Smart batch sizing**: Automatically merges small final batches to optimize processing
-
 ## Prerequisites
 
 - **[Nextflow](https://www.nextflow.io/)** (version 21.04.0 or later)
