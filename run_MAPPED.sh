@@ -255,21 +255,19 @@ mkdir -p "$BATCH_OUTPUTS_DIR"
 
 echo "Splitting $TOTAL_SAMPLES samples into $BATCH_COUNT batch(es) (max $BATCH_SIZE per batch)"
 
-shopt -s nullglob
-mapfile -t BATCH_FILES < <(printf '%s\n' "$BATCH_DIR"/sample_id_batch*.csv | sort)
-shopt -u nullglob
-
-if [[ "${#BATCH_FILES[@]}" -ne "$BATCH_COUNT" ]]; then
-  echo "Warning: Expected $BATCH_COUNT batch files but found ${#BATCH_FILES[@]}"
-fi
-
+BATCHES_FOUND=0
 REFERENCE_READY=0
-BATCH_INDEX=0
 
-for batch_file in "${BATCH_FILES[@]}"; do
-  ((BATCH_INDEX++))
-  batch_label=$(printf 'Batch %03d' "$BATCH_INDEX")
-  batch_dir_name=$(printf 'batch_%03d' "$BATCH_INDEX")
+for (( batch_idx = 1; batch_idx <= BATCH_COUNT; batch_idx++ )); do
+  batch_file=$(printf '%s/sample_id_batch%03d.csv' "$BATCH_DIR" "$batch_idx")
+  if [[ ! -f "$batch_file" ]]; then
+    echo "Warning: Expected batch file missing: $batch_file"
+    continue
+  fi
+
+  ((++BATCHES_FOUND))
+  batch_label=$(printf 'Batch %03d' "$batch_idx")
+  batch_dir_name=$(printf 'batch_%03d' "$batch_idx")
   batch_sample_count=$(awk 'NR>1 && NF>0 {count++} END {print count+0}' "$batch_file")
 
   echo "=== Processing ${batch_label} (${batch_sample_count} samples) ==="
@@ -307,6 +305,15 @@ for batch_file in "${BATCH_FILES[@]}"; do
   cp "$batch_file" "$batch_save_dir/sample_id.csv"
   echo "=== Completed ${batch_label} ==="
 done
+
+if [[ "$BATCHES_FOUND" -ne "$BATCH_COUNT" ]]; then
+  echo "Warning: Expected $BATCH_COUNT batch files but processed $BATCHES_FOUND"
+fi
+
+if [[ "$BATCHES_FOUND" -eq 0 ]]; then
+  echo "Error: No batch files were processed."
+  exit 1
+fi
 
 cp "$ORIGINAL_SAMPLE_ID" "$SAMPLE_ID_FILE"
 
