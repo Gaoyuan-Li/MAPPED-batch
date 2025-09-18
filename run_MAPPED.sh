@@ -275,6 +275,13 @@ for batch_file in "${BATCH_FILES[@]}"; do
   echo "=== Processing ${batch_label} (${batch_sample_count} samples) ==="
   cp "$batch_file" "$SAMPLE_ID_FILE"
 
+  # Ensure previous batch artifacts do not block Nextflow publish steps
+  if [[ -d "$OUTDIR/samplesheet" ]]; then
+    rm -f "$OUTDIR/samplesheet"/samplesheet.csv \
+          "$OUTDIR/samplesheet"/samplesheet_download.csv \
+          "$OUTDIR/samplesheet"/tmp_samplesheet.csv 2>/dev/null || true
+  fi
+
   run_step2 "$batch_label"
 
   if [[ "$REFERENCE_READY" -eq 0 ]]; then
