@@ -121,7 +121,11 @@ workflow {
         .map { it[1] }
         .collectFile(name:'tmp_samplesheet.csv', newLine: true, keepHeader: true, sort: { it.baseName })
         .map { it.text.tokenize('\n').join('\n') }
-        .collectFile(name:'samplesheet_download.csv', storeDir: "${params.outdir}/samplesheet")
+        .collectFile(
+            name: 'samplesheet_download.csv',
+            storeDir: "${params.outdir}/samplesheet",
+            overwrite: true
+        )
         .set { ch_samplesheet }
     }
 
